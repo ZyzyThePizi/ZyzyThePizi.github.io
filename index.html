@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Boldog Valentin-napot!</title>
+    <style>
+        body { 
+            background-color: #ffe6e6; 
+            text-align: center; 
+            font-family: 'Arial', sans-serif; 
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .tartalom { transition: filter 0.5s; }
+        .homalyos { filter: blur(8px); pointer-events: none; }
+
+        .sziv { color: #ff4d4d; font-size: 80px; animation: dobban 1s infinite; }
+        h1 { color: #b30000; margin: 20px; }
+        
+        @keyframes dobban {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .button-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 50px;
+            position: relative;
+        }
+
+
+        #igen, #nem { 
+            background: #ff4d4d; 
+            color: white; 
+            border: none; 
+            padding: 15px 30px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-size: 18px; 
+            min-width: 100px;
+        }
+
+        #nem { transition: 0.1s; }
+
+        /* Pop-up stílus */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 100;
+            text-align: center;
+            width: 350px;
+        }
+
+        #popup img { width: 100%; border-radius: 15px; margin-bottom: 15px; }
+        #popup h2 { color: #b30000; font-size: 22px; } </style>
+    <script>
+        var yes_counter = 0;
+        var nem_counter = 0;
+
+        var nem_lista_original = ["Are we fr?", "Nihher", "Fity", "Fityma", "Nem menekülsz", "Nuhh uhh", "Na mégegyszer", "Hallod", "Bruhh"
+            , ".......", "Do you even love mee????", "Nem jött be", "Őőőő nem", "Not gonna happen", "Kekeke a csapdámba vagy", "Muhihihi",
+            , "Kekekekeke", "Majom", "Csimpi try again", "Love u moooore", "Muhehehehe", "Thought I was loved :((", "Okeh a kanapén alszom :(", "Nincs más választásod hehehehe",
+            "Őhhhm másik gomb????", "Mind2en tudjuk a helyes döntést ....", "Menni fog"
+        ]
+
+    var nem_lista_working = [...nem_lista_original];
+
+    function igen() {
+        yes_counter++;
+        const title = document.querySelector('h1');
+
+        if (yes_counter === 1 && nem_counter == 0) {
+            title.innerText = "Egyszer nyomj már nemet bruhh...";
+        } else {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('main-content').classList.add('homalyos');
+            document.getElementById('nem').style.display = "none";
+            document.getElementById('igen').style.display = "none";
+        }
+    }
+
+    function nem() {
+        nem_counter++;
+        const nemGomb = document.getElementById('nem');
+
+        if (!nem_lista_working || nem_lista_working.length === 0) {
+            nem_lista_working = [...nem_lista_original];
+        }
+
+        const randomIndex = Math.floor(Math.random() * nem_lista_working.length);
+        
+        const kivalasztottSzoveg = nem_lista_working.splice(randomIndex, 1)[0];
+
+        nemGomb.innerText = kivalasztottSzoveg || "Próbáld újra!";
+
+        const x = Math.random() * (window.innerWidth - nemGomb.offsetWidth);
+        const y = Math.random() * (window.innerHeight - nemGomb.offsetHeight);
+
+        nemGomb.style.left = x + "px";
+        nemGomb.style.top = y + "px";
+        nemGomb.style.position = "fixed";
+    }
+    </script>
+</head>
+<body>
+    <div id="main-content" class="tartalom">
+        <div class="sziv">❤️</div>
+        <h1 id="focim">Leszel a valentinom?</h1>
+        <p>Te vagy a legfontosabb nekem a világon Helga.</p>
+        
+        <div class="button-wrapper">
+            <button id="igen" onclick="igen()">Igen!</button>
+            <button id="nem" onmouseover="nem()" onclick="nem()">Nem ...</button>
+        </div>
+    </div>
+
+    <div id="popup">
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzMwMTBwd2cwcTF0ZnJqOGRxOHphcHQxd3VndXc5NjVqaGpybmt4MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dnEdk09qJftEJv8YMC/giphy.gif" alt="Boldog GIF">
+        <h2>Te vagy a valentinom!<br>SZERETLEEEK HELGA!</h2>
+    </div>
+</body>
+</html>
